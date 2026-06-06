@@ -19,5 +19,6 @@ class Solution(nn.Module):
 
         # Return a B, 1 tensor and round to 4 decimal places
         
-        x=self.linear(self.embeddingg(x).mean(dim=1))
+        x=self.embeddingg(x).mean(dim=1)
+        x=self.linear(x)
         return torch.round(self.sigmoid(x),decimals=4)
