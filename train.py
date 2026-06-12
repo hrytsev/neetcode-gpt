@@ -12,14 +12,12 @@ class Solution:
         for epoch in range(epochs):
             torch.manual_seed(epoch)
 
-            # FIX 1: правильний range (без off-by-one проблем)
             ix = torch.randint(
                 0,
                 len(data) - context_length,
                 (batch_size,)
             )
 
-            # FIX 2: batching (залишив як у тебе, але коректно)
             x = torch.stack([
                 data[i:i + context_length]
                 for i in ix
@@ -30,12 +28,10 @@ class Solution:
                 for i in ix
             ])
 
-            # FIX 3: forward
             logits = model(x)  # [B, T, vocab_size]
 
             B, T, V = logits.shape
 
-            # FIX 4: flatten + correct cross entropy
             loss = F.cross_entropy(
                 logits.view(B * T, V),
                 y.view(B * T)
